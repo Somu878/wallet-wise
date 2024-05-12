@@ -1,7 +1,12 @@
-import * as bcrypt from "bcrypt";
+/* eslint-disable turbo/no-undeclared-env-vars */
+import GoogleProvider from "next-auth/providers/google";
 import db from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import bcrypt from "bcrypt";
+interface ProviderOptions {
+  clientId: string;
+  clientSecret: string;
+}
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -14,7 +19,7 @@ export const authOptions = {
         },
         password: { label: "Password", type: "password" },
       },
-      // TODO: User credentials type from next-aut
+      // TODO: User credentials type from next-auth
       async authorize(credentials: any) {
         // Do zod validation, OTP validation here
         const hashedPassword = await bcrypt.hash(credentials.password, 10);
@@ -59,8 +64,12 @@ export const authOptions = {
         return null;
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    } as ProviderOptions),
   ],
-  secret: process.env.JWT_SECRET || "secret",
+  secret: process.env.JWT_SECRET,
   callbacks: {
     // TODO: can u fix the type here? Using any is bad
     async session({ token, session }: any) {
