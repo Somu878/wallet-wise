@@ -8,7 +8,7 @@ export function AppbarClient() {
   const router = useRouter();
 
   return (
-    <div>
+    <>
       <Appbar
         onSignin={signIn}
         onSignout={async () => {
@@ -17,6 +17,6 @@ export function AppbarClient() {
         }}
         user={session.data?.user}
       />
-    </div>
+    </>
   );
 }

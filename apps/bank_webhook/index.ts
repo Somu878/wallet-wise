@@ -2,6 +2,11 @@ import express from "express";
 import db from "@repo/db/client";
 const app = express();
 app.use(express.json());
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    Status: "Running on port 3003",
+  });
+});
 app.post("/webhook", async (req, res) => {
   //TODO: Add zod validation here?
   //TODO: HDFC bank should ideally send us a secret so we know this is sent by them
