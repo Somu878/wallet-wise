@@ -3,6 +3,7 @@
 import prisma from "@repo/db/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
+// import crypto from "crypto";
 
 export async function createOnRampTransaction(
   provider: string,
@@ -14,6 +15,9 @@ export async function createOnRampTransaction(
       message: "Unauthenticated request",
     };
   }
+  // const userId = Number(session.user.id);
+  // const amountInCents = amount * 100;
+  // const secretKey = process.env.TOKEN_SECRET;
   const token = (Math.random() * 1000).toString();
   await prisma.onRampTransaction.create({
     data: {
